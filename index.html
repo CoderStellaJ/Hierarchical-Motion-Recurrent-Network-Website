@@ -16,15 +16,13 @@
     <link rel="stylesheet" href="style.css">
     <!-- font -->
     <link href="https://fonts.googleapis.com/css?family=Lobster&display=swap" rel="stylesheet">
-    <!-- For Javascript -->
-    <script type="text/javascript" src="script.js"></script>
 
     <title>HMR</title>
     <link rel="icon" type="image/png" href="icon.png">
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-sm navbar-light px-5 py-0 border border-bottom" id="mainNavbar">
+    <nav class="navbar navbar-expand-sm navbar-light px-5 py-0" id="mainNavbar">
         <!-- change text to light -->
         <a class="navbar-brand" href="#">HMR</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -68,7 +66,7 @@
             </form> -->
         </div>
     </nav>
-    <section class="jumbotron py-2" id="title">
+    <section class="jumbotron py-2 mt-1000" id="title">
         <h1 class="text-center mt-200" id="mainTitle">HMR</h1>
         <h5 class="text-center">Hierarchical Motion Recurrent Network for Future Motion Prediction of Humans and Animals
         </h5>
@@ -135,7 +133,7 @@
             <div class="col-12 col-sm-12 col-md-12 col-lg-8">
                 <h3 class="border-bottom">Publication</h3>
                 <p>To appear in CVPR2019</p>
-                <p>The code is uploaded in Github reposiroty <a class="btn" id="github"
+                <p>The code is uploaded in Github repository <a class="btn" id="github"
                         href="https://github.com/BII-wushuang/Lie-Group-Motion-Prediction" role="button"><i
                             class="fab fa-github"> Github</i></a></p>
             </div>
@@ -157,6 +155,14 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
+    <script>
+        $(function () {
+            $(document).scroll(function () {
+                var $nav = $("#mainNavbar");
+                $nav.toggleClass("scrolled", $(this).scrollTop() > $nav.height());
+            });
+        });
+    </script>
 </body>
 
 </html>

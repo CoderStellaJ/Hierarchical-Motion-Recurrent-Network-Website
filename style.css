@@ -9,6 +9,10 @@ h1 {
     font-family: "Lobster";
 }
 
+.navbar.scrolled {
+    background:#b0cffc;
+    transition: background 500ms;
+}
 
 .navbar-brand {
     color:black;
@@ -23,11 +27,6 @@ h1 {
 #title {
     background: #b0cefca8;
 }
-
-.jumbotron .newsec {
-    background: #fce5a1;
-}
-
 
 #github {
     background:#b0cffc;
