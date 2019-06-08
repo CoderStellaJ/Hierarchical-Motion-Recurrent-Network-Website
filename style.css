@@ -1,0 +1,49 @@
+/* theme color: blue #b0cffc */
+/* background color: #b0cefca8 */
+
+h1 {
+    margin-top:30px
+}
+
+#mainTitle{
+    font-family: "Lobster";
+}
+
+
+.navbar-brand {
+    color:black;
+    font-family: "Lobster";
+    font-size:1.5rem;
+}
+
+.nav-link {
+    color:black;
+}
+
+#title {
+    background: #b0cefca8;
+}
+
+.jumbotron .newsec {
+    background: #fce5a1;
+}
+
+
+#github {
+    background:#b0cffc;
+}
+
+table {
+    width:100%
+}
+
+.ins {
+    text-align:right;
+}
+
+.author {
+    color:#b0cffc;
+}
+
+
+
