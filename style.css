@@ -9,9 +9,12 @@ h1 {
     font-family: "Lobster";
 }
 
-.navbar.scrolled {
-    background:#b0cffc;
+/* .navbar.scrolled {
+    background:white;
     transition: background 500ms;
+} */
+.navbar {
+    background:white;
 }
 
 .navbar-brand {
@@ -22,6 +25,14 @@ h1 {
 
 .nav-link {
     color:black;
+}
+
+.menu {
+    background:white;
+}
+
+.jumbotron {
+    margin-top:3rem;
 }
 
 #title {
