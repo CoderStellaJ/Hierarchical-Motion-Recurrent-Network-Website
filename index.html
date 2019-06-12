@@ -20,11 +20,10 @@
     <title>HMR</title>
     <link rel="icon" type="image/png" href="icon.png">
 </head>
-
 <body>
     <nav class="navbar navbar-expand-sm navbar-light px-0 px-sm-5 py-0 fixed-top border-bottom" id="mainNavbar">
         <!-- change text to light -->
-        <a class="navbar-brand" href="#">HMR</a>
+        <a class="navbar-brand" href="#top">HMR</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -33,16 +32,13 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item menu">
-                    <a class="nav-link text-center" href="#">Home <span class="sr-only">(current)</span></a>
+                    <a class="nav-link text-center" href="#Method">Method <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item menu">
-                    <a class="nav-link text-center" href="#">Method <span class="sr-only">(current)</span></a>
+                    <a class="nav-link text-center" href="#Team">Team <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item menu">
-                    <a class="nav-link text-center" href="#">Team <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item menu">
-                    <a class="nav-link text-center" href="#">Publication</a>
+                    <a class="nav-link text-center" href="#Publication">Publication</a>
                 </li>
             </ul>
         </div>
@@ -52,24 +48,101 @@
         <h5 class="text-center">Hierarchical Motion Recurrent Network for Future Motion Prediction of Humans and Animals
         </h5>
     </section>
+
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-12 col-sm-12 col-md-12 col-lg-8">
-                <iframe width=100% height=480 src="https://www.youtube.com/embed/MbS01jmAIlg" frameborder="0"
+                <iframe width=100% height=480 src="https://www.youtube.com/embed/qi33KKUzrVA" frameborder="0"
                     allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
                     allowfullscreen></iframe>
             </div>
         </div>
+
         <div class="row justify-content-center mt-5">
             <div class="col-12 col-sm-12 col-md-12 col-lg-8">
-                <h3 class="border-bottom">Method</h3>
-            </div>
+                <h3 class="border-bottom" id="Method">Method</h3>
 
+                <p class="justify">The input motion sequence consisting of $t$ frames is first parameterized with Lie algebra parameters, i.e. instead of representing a motion frame in terms of the raw 3D coordinates, we represent it in terms of kinematic chains of axis angles parameters relating the rotation of connected bones. The resultant pose sequence $\langle \mathrm{\mathbf{p}}_1, \cdots, \mathrm{\mathbf{p}}_t\rangle$ is then passed to a sequence-to-sequence model that encodes its motion context and a decoder then generate predictions for $\langle \mathrm{\mathbf{p}}_{t+1}, \cdots, \mathrm{\mathbf{p}}_T\rangle$.</p>
+
+                <p class="justify">In conventional motion prediction models, the encoder and decoder usually consist of single or stacked layers of LSTM or GRU cells. The inputs must be processed sequentially and the final hidden state tends to be dominated by the inputs at recent frames and cannot properly capture long-term dependencies. Consequently, predicted motion tends to converge to motionless states.</p>
+
+                <p class="justify">To effectively model motion dynamics, we propose a <b>Hierarchical Motion Recurrent (HMR)</b> network as the encoder, where the entire input sequence of poses is fed one-shot instead of successively. The motion contexts are modeled by 
+                <ul>
+                    <li>$t-1$ frame-level hidden states, $\left\{\mathrm{\mathbf{h}}_{j}\right\}_{j=1}^{t-1}$ corresponding to each individual frame,</li>
+                    <li>$1$ sequence-level global state $\mathrm{\mathbf{g}}$ corresponding to the entire sequence.</li>
+                </ul>
+                $\mathrm{\mathbf{h}}_{j}$ and $\mathrm{\mathbf{g}}$ capture local and global motion contexts, respectively.</p>
+
+                <img class="center" src="HMR_encoder.png" alt="Encoder">
+                
+                <p class="justify">The detailed state transitions are as follows.</p>
+
+                <br>
+
+                <img id="h_img" class="gif" src="h_update.gif" alt="Update of frame level hidden state">
+
+                <!-- The Modal -->
+                <div id="h_Modal" class="modal">
+                    <span id="h_close" class="close">&times;</span>
+                    <img class="modal-content" src="h_update.png">
+                    <div class="caption">
+                            \begin{equation}
+                            \begin{aligned}
+                            &\mathrm{\mathbf{e}}_j^{n-1} = \left({\mathrm{\mathbf{h}}_{j-1}^{n-1}}^\intercal, {\mathrm{\mathbf{h}}_{j}^{n-1}}^\intercal, {\mathrm{\mathbf{h}}_{j+1}^{n-1}}^\intercal \right)^\intercal \\
+                            &\mathrm{\mathbf{f}}^n = \sigma\left(\mathrm{U}_f \mathrm{\mathbf{p}}_j+\mathrm{W}_f \mathrm{\mathbf{e}}_j^{n-1}+\mathrm{Z}_f \mathrm{\mathbf{g}}^{n-1}+\mathrm{\mathbf{b}}_f\right) \\
+                            &\mathrm{\mathbf{l}}^n = \sigma\left(\mathrm{U}_l \mathrm{\mathbf{p}}_j+\mathrm{W}_l \mathrm{\mathbf{e}}_j^{n-1}+\mathrm{Z}_l \mathrm{\mathbf{g}}^{n-1}+\mathrm{\mathbf{b}}_l\right) \\
+                            &\mathrm{\mathbf{r}}^n = \sigma\left(\mathrm{U}_r \mathrm{\mathbf{p}}_j+\mathrm{W}_r \mathrm{\mathbf{e}}_j^{n-1}+\mathrm{Z}_r \mathrm{\mathbf{g}}^{n-1}+\mathrm{\mathbf{b}}_r\right) \\
+                            &\mathrm{\mathbf{q}}^n = \sigma\left(\mathrm{U}_q \mathrm{\mathbf{p}}_j+\mathrm{W}_q \mathrm{\mathbf{e}}_j^{n-1}+\mathrm{Z}_q \mathrm{\mathbf{g}}^{n-1}+\mathrm{\mathbf{b}}_q\right) \\
+                            &\mathrm{\mathbf{i}}^n = \sigma\left(\mathrm{U}_i \mathrm{\mathbf{p}}_j+\mathrm{W}_i \mathrm{\mathbf{e}}_j^{n-1}+\mathrm{Z}_i \mathrm{\mathbf{g}}^{n-1}+\mathrm{\mathbf{b}}_i\right) \\
+                            &\tilde{\mathrm{\mathbf{c}}}_j^n = \tanh\left(\mathrm{U}_c \mathrm{\mathbf{p}}_j+\mathrm{W}_c \mathrm{\mathbf{e}}_j^{n-1}+\mathrm{Z}_c \mathrm{\mathbf{g}}^{n-1}+\mathrm{\mathbf{b}}_c\right) \\
+                            &\mathrm{\mathbf{c}}_j^n = \mathrm{\mathbf{l}}^n\odot \mathrm{\mathbf{c}}_{j-1}^{n-1} + \mathrm{\mathbf{f}}^n \odot \mathrm{\mathbf{c}}_j^{n-1} + \mathrm{\mathbf{r}}^n \odot \mathrm{\mathbf{c}}_{j+1}^{n-1} \\
+                            &\quad\quad+ \mathrm{\mathbf{q}}^n \odot \mathrm{\mathbf{c}}_g^{n-1} + \mathrm{\mathbf{i}}^n\odot \tilde{\mathrm{\mathbf{c}}}_j^n \\
+                            &\mathrm{\mathbf{o}}_j^n = \sigma \left(\mathrm{U}_o \mathrm{\mathbf{p}}_j+\mathrm{W}_o \mathrm{\mathbf{n}}_j^{n-1}+\mathrm{Z}_o \mathrm{\mathbf{g}}^{n-1}+\mathrm{\mathbf{b}}_o \right) \\
+                            &\mathrm{\mathbf{h}}_j^{n} = \mathrm{\mathbf{o}}_j^n \odot \tanh \left(\mathrm{\mathbf{c}}_j^n \right). \nonumber
+                            \end{aligned}
+                            \end{equation}
+                    </div>
+                </div>
+
+                <br>
+
+                <p class="justify">At each recurrent step $n$, $\mathrm{\mathbf{h}}_j^n$ is updated by exchanging information with its neighboring frames and with the global sequence-level state. There are a total of 4 types of <b>forget</b> gates: $\mathrm{\mathbf{f}}^n$, $\mathrm{\mathbf{l}}^n, \mathrm{\mathbf{r}}^n$, and $\mathrm{\mathbf{q}}^n$ (forward, left, right, and global forget gates), which respectively control the information flows from the current cell state $\mathrm{\mathbf{c}}_{j}^{n-1}$, left cell state $\mathrm{\mathbf{c}}_{j-1}^{n-1}$, right cell state $\mathrm{\mathbf{c}}_{j+1}^{n-1}$, and global cell state $\mathrm{\mathbf{c}}_g^{n-1}$ at recurrent step $n-1$ to the final cell state $\mathrm{\mathbf{c}}_j^n$ at recurrent step $n$. The <b>input</b> gate $\mathrm{\mathbf{i}}^n$ controls the information flow from the pose input $\mathrm{\mathbf{p}}_j$. Finally, the $j^{th}$ frame hidden state $\mathrm{\mathbf{h}}_j^n$ at recurrent step $n$ is updated by a Hadamard product of the <b<>output</b> gate $\mathrm{\mathbf{o}}_j^n$ with the $\tanh$ activated cell state $\mathrm{\mathbf{c}}_j^n$.</p>
+                
+                <br>
+
+                <img id="g_img" class="gif" src="g_update.gif" alt="Update of sequence level hidden state">
+
+                <!-- The Modal -->
+                <div id="g_Modal" class="modal">
+                    <span id="g_close" class="close">&times;</span>
+                    <img class="modal-content" src="g_update.png">
+                    <div class="caption">
+                            \begin{equation}
+                            \begin{aligned}
+                            &\tilde{\mathrm{\mathbf{g}}}^{n-1} = \frac{1}{t-1}\sum\limits_{j=1}^{t-1} \mathrm{\mathbf{h}}_j^{n-1} \\
+                            &\tilde{\mathrm{\mathbf{f}}}_j^n = \sigma \left(\tilde{\mathrm{W}}_f \mathrm{\mathbf{h}}_j^{n-1}+\tilde{\mathrm{Z}}_f \mathrm{\mathbf{g}}^{n-1}+\tilde{\mathrm{\mathbf{b}}}_f \right) \\
+                            &\tilde{\mathrm{\mathbf{f}}}_g^n = \sigma \left(\tilde{\mathrm{W}}_g \tilde{\mathrm{\mathbf{g}}}^{n-1}+\tilde{\mathrm{Z}}_g \mathrm{\mathbf{g}}^{n-1}+\tilde{\mathrm{\mathbf{b}}}_g \right) \\
+                            &\mathrm{\mathbf{c}}_g^n = \tilde{\mathrm{\mathbf{f}}}_g^n\odot \mathrm{\mathbf{c}}_g^{n-1} + \sum_{j=1}^{t-1} \tilde{\mathrm{\mathbf{f}}}_j^{n-1} \odot \mathrm{\mathbf{c}}_j^{n-1} \\
+                            &\tilde{\mathrm{\mathbf{o}}}_i^n = \sigma \left(\tilde{\mathrm{W}}_o \tilde{\mathrm{\mathbf{g}}}^{n-1}+\tilde{\mathrm{Z}}_o \mathrm{\mathbf{g}}^{n-1}+\tilde{\mathrm{\mathbf{b}}}_o \right)\\
+                            &\mathrm{\mathbf{g}}^{n} = \tilde{\mathrm{\mathbf{o}}}_i^n \odot \tanh(\mathrm{\mathbf{c}}_g^n). \nonumber
+                            \end{aligned}
+                            \end{equation}
+                    </div>
+                </div>
+                
+                <br>
+
+                <p class="justify"> $\tilde{\mathrm{\mathbf{f}}}_g^n$ and $\tilde{\mathrm{\mathbf{f}}}_j^n$ are the respective <b>forget</b> gates that filter information from $\mathrm{\mathbf{c}}_g^{n-1}$ and $\mathrm{\mathbf{c}}_j^{n-1}$ to global cell state $\mathrm{\mathbf{c}}_g^n$. The global state $\tilde{\mathrm{\mathbf{g}}}^n$ at recurrent step $n$ is updated by a Hadamard product of the <b>output</b> gate $\tilde{\mathrm{\mathbf{o}}}_j^n$ with the $\tanh$ activated $\mathrm{\mathbf{c}}_g^n$.</p>
+                
+                <p class="justify">The HMR encoder learns a two-level representation of the entire input sequence. It is subsequently passed to the decoder (a two-layer stacked LSTM network) that recursively outputs the future motion sequence. The pose at time $t$, $\mathrm{\mathbf{p}}_t$, serves as the initial input pose to the decoder. The decoder is executed following the directed links shown in the animated gif below to produce a pose prediction $\hat{\mathrm{\mathbf{p}}}_{t+1}$. It is then fed back as input to the subsequent cell of the decoder. Poses of subsequent frames are thus predicted in this recursive manner.</p>
+
+                <img id="decoder" src="Decoder.gif" alt="Decoder" style="width: 100%">
+            </div>
         </div>
 
         <div class="row justify-content-center mt-5">
             <div class="col-12 col-sm-12 col-md-12 col-lg-8">
-                <h3 class="border-bottom">Team</h3>
+                <h3 id="Team" class="border-bottom">Team</h3>
                 <table>
                     <tr>
                         <td>Shuang Wu <a href="https://github.com/BII-wushuang" class="author"><i
@@ -112,7 +185,7 @@
         </div>
         <div class="row justify-content-center mt-5">
             <div class="col-12 col-sm-12 col-md-12 col-lg-8">
-                <h3 class="border-bottom">Publication</h3>
+                <h3 id="Publication" class="border-bottom">Publication</h3>
                 <p>To appear in CVPR2019</p>
                 <p>The code is uploaded in Github repository <a class="btn" id="github"
                         href="https://github.com/BII-wushuang/Lie-Group-Motion-Prediction" role="button"><i
@@ -121,21 +194,68 @@
 
         </div>
 
-
     </div>
-
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
+        crossorigin="anonymous">
+    </script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
         integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-        crossorigin="anonymous"></script>
+        crossorigin="anonymous">
+    </script>
+
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-        crossorigin="anonymous"></script>
+        crossorigin="anonymous">
+    </script>
+
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}});
+    </script>
+
+    <script type="text/javascript"
+        src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+
+    <script>
+        // Get the modal
+        var h_modal = document.getElementById("h_Modal");
+        
+        var h_img = document.getElementById("h_img");
+        h_img.onclick = function(){
+            h_modal.style.display = "block";
+        }
+        
+        // Get the <span> element that closes the modal
+        var h_span = document.getElementById("h_close");
+        
+        // When the user clicks on <span> (x), close the modal
+        h_span.onclick = function() { 
+            h_modal.style.display = "none";
+        }
+    </script>
+
+    <script>
+        // Get the modal
+        var g_modal = document.getElementById("g_Modal");
+        
+        var g_img = document.getElementById("g_img");
+        g_img.onclick = function(){
+            g_modal.style.display = "block";
+        }
+        
+        // Get the <span> element that closes the modal
+        var g_span = document.getElementById("g_close");
+        
+        // When the user clicks on <span> (x), close the modal
+        g_span.onclick = function() { 
+            g_modal.style.display = "none";
+        }
+    </script>
 </body>
 
 </html>
