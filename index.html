@@ -62,13 +62,13 @@
             <div class="col-12 col-sm-12 col-md-12 col-lg-8">
                 <h3 class="border-bottom" id="Method">Method</h3>
 
-                <p class="justify">The input motion sequence consisting of $t$ frames is first parameterized with Lie algebra parameters, i.e. instead of representing a motion frame in terms of the raw 3D coordinates, we represent it in terms of kinematic chains of axis angles parameters relating the rotation of connected bones. The resultant pose sequence $\langle \mathrm{\mathbf{p}}_1, \cdots, \mathrm{\mathbf{p}}_t\rangle$ is then passed to a sequence-to-sequence model that encodes its motion context and a decoder then generate predictions for $\langle \mathrm{\mathbf{p}}_{t+1}, \cdots, \mathrm{\mathbf{p}}_T\rangle$.</p>
+                <p class="justify">The input motion sequence consisting of $t$ frames is first parameterized with Lie algebra parameters, i.e. instead of representing a motion frame in terms of raw 3D coordinates, we represent it with $\mathfrak{se}(3)$ kinematic chains of axis angles parameters relating the rotation of connected bones. The resultant pose sequence $\langle \mathrm{\mathbf{p}}_1, \cdots, \mathrm{\mathbf{p}}_t\rangle$ is then passed to a sequence-to-sequence model that encodes its motion context and a decoder then generate predictions for $\langle \mathrm{\mathbf{p}}_{t+1}, \cdots, \mathrm{\mathbf{p}}_{t+T}\rangle$.</p>
 
                 <p class="justify">In conventional motion prediction models, the encoder and decoder usually consist of single or stacked layers of LSTM or GRU cells. The inputs must be processed sequentially and the final hidden state tends to be dominated by the inputs at recent frames and cannot properly capture long-term dependencies. Consequently, predicted motion tends to converge to motionless states.</p>
 
                 <p class="justify">To effectively model motion dynamics, we propose a <b>Hierarchical Motion Recurrent (HMR)</b> network as the encoder, where the entire input sequence of poses is fed one-shot instead of successively. The motion contexts are modeled by 
                 <ul>
-                    <li>$t-1$ frame-level hidden states, $\left\{\mathrm{\mathbf{h}}_{j}\right\}_{j=1}^{t-1}$ corresponding to each individual frame,</li>
+                    <li>$t-1$ frame-level hidden states, $\left\{\mathrm{\mathbf{h}}_{j}\right\}_{j=1}^{t-1}$ corresponding to the individual frames,</li>
                     <li>$1$ sequence-level global state $\mathrm{\mathbf{g}}$ corresponding to the entire sequence.</li>
                 </ul>
                 $\mathrm{\mathbf{h}}_{j}$ and $\mathrm{\mathbf{g}}$ capture local and global motion contexts, respectively.</p>
