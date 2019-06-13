@@ -52,7 +52,7 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-12 col-sm-12 col-md-12 col-lg-8">
-                <iframe width=100% src="https://www.youtube.com/embed/qi33KKUzrVA" frameborder="0"
+                <iframe width=100% height=480px src="https://www.youtube.com/embed/qi33KKUzrVA" frameborder="0"
                     allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
                     allowfullscreen></iframe>
             </div>
@@ -66,12 +66,12 @@
 
                 <p class="justify">In conventional motion prediction models, the encoder and decoder usually consist of single or stacked layers of LSTM or GRU cells. The inputs must be processed sequentially and the final hidden state tends to be dominated by the inputs at recent frames and cannot properly capture long-term dependencies. Consequently, predicted motion tends to converge to motionless states.</p>
 
-                <p class="justify">To effectively model motion dynamics, we propose a <b>Hierarchical Motion Recurrent (HMR)</b> network as the encoder, where the entire input sequence of poses is fed one-shot instead of successively. The motion contexts are modeled by 
+                <p class="justify">To effectively model motion dynamics, we propose a <b>Hierarchical Motion Recurrent (HMR)</b> network as the encoder, where the entire input sequence of poses is fed one-shot instead of successively. The motion contexts are modeled by</p>
                 <ul>
                     <li>$t-1$ frame-level hidden states, $\left\{\mathrm{\mathbf{h}}_{j}\right\}_{j=1}^{t-1}$ corresponding to the individual frames,</li>
                     <li>$1$ sequence-level global state $\mathrm{\mathbf{g}}$ corresponding to the entire sequence.</li>
                 </ul>
-                $\mathrm{\mathbf{h}}_{j}$ and $\mathrm{\mathbf{g}}$ capture local and global motion contexts, respectively.</p>
+                <p class="justify">$\mathrm{\mathbf{h}}_{j}$ and $\mathrm{\mathbf{g}}$ capture local and global motion contexts, respectively.</p>
 
                 <img id="encoder" src="Encoder.png" alt="Encoder" style="display:block; margin-left:auto; margin-right: auto; width:70%">
                 
@@ -134,7 +134,7 @@
 
                 <p class="justify"> $\tilde{\mathrm{\mathbf{f}}}_g^n$ and $\tilde{\mathrm{\mathbf{f}}}_j^n$ are the respective <b>forget</b> gates that filter information from $\mathrm{\mathbf{c}}_g^{n-1}$ and $\mathrm{\mathbf{c}}_j^{n-1}$ to global cell state $\mathrm{\mathbf{c}}_g^n$. The global state $\tilde{\mathrm{\mathbf{g}}}^n$ at recurrent step $n$ is updated by a Hadamard product of the <b>output</b> gate $\tilde{\mathrm{\mathbf{o}}}_j^n$ with the $\tanh$ activated $\mathrm{\mathbf{c}}_g^n$.</p>
                 
-                <p class="justify">The HMR encoder learns a two-level representation of the entire input sequence. It is subsequently passed to the decoder (a two-layer stacked LSTM network) that recursively outputs the future motion sequence. The pose at time $t$, $\mathrm{\mathbf{p}}_t$, serves as the initial input pose to the decoder. The decoder is executed following the directed links shown in the animated gif below to produce a pose prediction $\hat{\mathrm{\mathbf{p}}}_{t+1}$. It is then fed back as input to the subsequent cell of the decoder. Poses of subsequent frames are thus predicted in this recursive manner.</p>
+                <p class="justify">The HMR encoder learns a two-level representation of the entire input sequence. It is subsequently passed to the decoder (a two-layer stacked LSTM network) that recursively outputs the future motion sequence. The pose $\mathrm{\mathbf{p}}_t$ serves as the initial input pose to the decoder. The decoder is executed following the directed links shown in the animated gif below to produce a pose prediction $\hat{\mathrm{\mathbf{p}}}_{t+1}$. It is then fed back as input to the subsequent cell of the decoder. Poses of subsequent frames are thus predicted in this recursive manner.</p>
 
                 <img id="decoder" src="Decoder.gif" alt="Decoder" style="width: 100%">
             </div>
