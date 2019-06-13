@@ -81,8 +81,8 @@
 
                 <img id="h_img" class="gif" src="h_update.gif" alt="Update of frame level hidden state">
 
-                <!-- The Modal -->
-                <div id="h_Modal" class="modal">
+                <!-- h_update Modal -->
+                <div id="h_modal" class="modal">
                     <span id="h_close" class="close">&times;</span>
                     <img class="modal-content" src="h_update.png">
                     <div class="caption">
@@ -112,8 +112,8 @@
 
                 <img id="g_img" class="gif" src="g_update.gif" alt="Update of sequence level hidden state">
 
-                <!-- The Modal -->
-                <div id="g_Modal" class="modal">
+                <!-- g_update Modal -->
+                <div id="g_modal" class="modal">
                     <span id="g_close" class="close">&times;</span>
                     <img class="modal-content" src="g_update.png">
                     <div class="caption">
@@ -219,7 +219,7 @@
 
     <script>
         // Get the modal
-        var h_modal = document.getElementById("h_Modal");
+        var h_modal = document.getElementById("h_modal");
         
         var h_img = document.getElementById("h_img");
         h_img.onclick = function(){
@@ -233,11 +233,8 @@
         h_span.onclick = function() { 
             h_modal.style.display = "none";
         }
-    </script>
 
-    <script>
-        // Get the modal
-        var g_modal = document.getElementById("g_Modal");
+        var g_modal = document.getElementById("g_modal");
         
         var g_img = document.getElementById("g_img");
         g_img.onclick = function(){
@@ -251,7 +248,18 @@
         g_span.onclick = function() { 
             g_modal.style.display = "none";
         }
+
+        window.onclick = function(event) {
+            if (event.target == h_modal) {
+                h_modal.style.display = "none";
+            }
+
+            if (event.target == g_modal) {
+                g_modal.style.display = "none";
+            }
+        }
     </script>
+    
 </body>
 
 </html>
