@@ -146,3 +146,22 @@ table {
     width: 100%;
   }
 }
+
+.link2 {
+  text-decoration:none;
+  display: inline;
+  margin-right: 5px;
+}
+
+.fakelink {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.bibref {
+  margin-top: 10px;
+  margin-left: 10px;
+  display:none;
+  font-size:14px;
+  font-family: monospace;
+}
